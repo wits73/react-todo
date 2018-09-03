@@ -1,17 +1,37 @@
 import React, { Component } from "react";
-import TodoItem from './TodoItem';
+import TodoItem from "./TodoItem";
 
 class TodoItemList extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.todos !== nextProps.todos;
+  }
   render() {
     const { todos, onToggle, onRemove } = this.props;
 
-    return (
-      <div>
-        <TodoItem text="안녕" />
-        <TodoItem text="리액트" />
-        <TodoItem text="반가워" />
-      </div>
+    const todoList = todos.map(({ id, text, checked }) => (
+      <TodoItem
+        id={id}
+        text={text}
+        checked={checked}
+        onToggle={onToggle}
+        onRemove={onRemove}
+        key={id}
+      />
+    ));
+    /*  == same above
+    const todoList = todos.map(
+      (todo) => (
+        <TodoItem
+          {...todo}
+          onToggle={onToggle}
+          onRemove={onRemove}
+          key={todo.id}
+        />
+      )
     );
+    */
+
+    return <div>{todoList}</div>;
   }
 }
 
